@@ -22,9 +22,9 @@ class Server extends React.Component {
         };
         this.fields = {
             empty: <Container><h1>Empty</h1></Container>,
-            config: <ServerConfig server="http://localhost:10000"/>,
-            queue: <ServerQueue server="http://localhost:10000"/>,
-            pool: <ServerPool server="http://localhost:10000"/>,
+            config: <ServerConfig server={this.props.server}/>,
+            queue: <ServerQueue server={this.props.server}/>,
+            pool: <ServerPool server={this.props.server}/>,
         };
         this.state = {
             field:this.fields.empty,

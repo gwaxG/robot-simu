@@ -11,30 +11,19 @@ import Row from 'react-bootstrap/Row';
 import _ from 'lodash';
 /*
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Toast from 'react-bootstrap/Toast';
 */
 
-
-/*
-a = {a:{b:{c:{d:4}}}}
-l = ["a", "b" , "c", "d"];
-s = a
-for (k of l) {
-  s = s[k]
-}
-console.log(s)
-* */
-
 let configCounter = 0;
+
 class ConfigForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {needUpdate: false};
-        this.json = props.config;
-        this.jsonSave = props.config;
+        this.json = _.cloneDeep(props.config);
+        this.jsonSave = _.cloneDeep(props.config);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -46,45 +35,37 @@ class ConfigForm extends React.Component {
     }
 
     handleSubmit(event) {
-        console.log(this.state.value);
-    }
-
-    getObjects(obj, key, val, newVal) {
-        var newValue = newVal;
-        var objects = [];
-        for (var i in obj) {
-            if (!obj.hasOwnProperty(i)) continue;
-            if (typeof obj[i] == 'object') {
-                objects = objects.concat(this.getObjects(obj[i], key, val, newValue));
-            } else if (i == key && obj[key] == val) {
-                obj[key] = newVal;
-            }
+        console.log("Sending", this.json);
+        let data = {
+            "config": this.json,
+            "launch_file": this.props.file,
+            "msg": ""
         }
-        return obj;
-    }
-
-    getValue(obj, key) {
-        var objects = [];
-        for (var i in obj) {
-            if (!obj.hasOwnProperty(i)) continue;
-            if (typeof obj[i] == 'object') {
-                return this.getValue(obj[i], key);
-            } else if (i == key) {
-                return obj[key];
-            }
-        }
-        return null;
+        console.log(data)
+        axios({
+            method: 'POST',
+            url: this.props.server+'/task/create',
+            data: data,
+        })
+        .then((resp)=>{console.log("SERVER ANSWER", resp)})
+        .catch(error => console.log("SERVER ERROR", error));
     }
 
     form(obj, file, nesting="") {
         let sep = nesting === "" ? '' : '.';
         let fields = [];
+        var wdt = "";
         var keys = Object.keys(obj);
         for (let i = 0; i<keys.length; i++) {
             if (typeof this.props.config[keys[i]] === 'object') {
                 let res = this.form(obj[keys[i]], "", nesting+sep+keys[i]);
                 fields = fields.concat(res);
             } else {
+                if (keys[i].includes("path")) {
+                    wdt = "500px";
+                } else {
+                    wdt = "200px";
+                }
                 fields.push(
                     <Row key={"row"+configCounter.toString()+i.toString()+nesting}>
                         <label key={"lbl"+configCounter.toString()+i.toString()+nesting}>
@@ -93,6 +74,7 @@ class ConfigForm extends React.Component {
                             <input
                                 key={"input"+configCounter.toString()+i.toString()+nesting}
                                 type="text"
+                                style={{ width: wdt }}
                                 value={_.get(this.json, nesting+sep+keys[i])} // this.json[keys[i]]
                                 onChange={(event) => {
                                     this.handleChange(event, nesting+sep+keys[i])}
@@ -101,16 +83,25 @@ class ConfigForm extends React.Component {
                         </label>
                     </Row>
                 );
-                console.log(nesting+'.'+keys[i]);
             }
         };
-        //
-        // <Button variant="secondary" onClick={this.handleSubmit}>Submit</Button>
-        return <div key={"div"+configCounter.toString()+nesting}>{fields}</div>;
+        return fields;
+        // return <div key={"div"+configCounter.toString()+nesting}>{fields}</div>;
     }
 
     render() {
-        return <div><h2>Configuraiton</h2>{this.form(this.props.config, this.props.file, "")}</div>;
+        let fields = this.form(this.props.config, this.props.file, "");
+        fields.push(<Button key={"unique config button"} variant="secondary" onClick={this.handleSubmit}>Create</Button>);
+        return (
+            <div>
+                <h2>
+                    Configuration: {this.props.file.split('/').slice(-1)[0].replace("_launch.py", "")}
+                    <br/>
+                </h2>
+                {this.props.file}
+                {fields}
+            </div>
+        );
     }
 }
 
@@ -150,6 +141,7 @@ class ServerConfig extends React.Component {
                                 key={"form"+i}
                                 config={this.state.resp.configs[i]}
                                 file={this.state.resp.launch_files[i]}
+                                server={this.props.server}
                             />
                         </Container>
                     </Jumbotron>

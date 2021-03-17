@@ -11,6 +11,8 @@ import { Navbar,Nav,NavDropdown,Form,FormControl,Button } from 'react-bootstrap'
 import Server from './Server';
 import Data from './Data';
 
+const server = "http://localhost:10000"
+
 class BootstrapNavbar extends React.Component{
 
 
@@ -33,9 +35,9 @@ class BootstrapNavbar extends React.Component{
                             <br />
                             <Switch>
                                 <Route exact path="/">
-                                    <Server />
+                                    <Server server={server}/>
                                 </Route>
-                                <Route path="/data">
+                                <Route path="/data" server={server}>
                                     <Data />
                                 </Route>
 
