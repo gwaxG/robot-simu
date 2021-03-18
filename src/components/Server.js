@@ -52,9 +52,9 @@ class Server extends React.Component {
             <Col xs="2">
                 <Container>
                     <ButtonGroup vertical>
-                        <Button variant="secondary" onClick={this.changeMainFieldConfig}>Configurations</Button>
-                        <Button variant="secondary" onClick={this.changeMainFieldQueue}>Queue</Button>
-                        <Button variant="secondary" onClick={this.changeMainFieldPool}>Pool</Button>
+                        <Button size="lg" variant="secondary" onClick={this.changeMainFieldConfig}>Configurations</Button>
+                        <Button size="lg" variant="secondary" onClick={this.changeMainFieldQueue}>Queue</Button>
+                        <Button size="lg" variant="secondary" onClick={this.changeMainFieldPool}>Pool</Button>
                     </ButtonGroup>
                 </Container>
             </Col>

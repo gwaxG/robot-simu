@@ -57,7 +57,7 @@ class ConfigForm extends React.Component {
         var wdt = "";
         var keys = Object.keys(obj);
         for (let i = 0; i<keys.length; i++) {
-            if (typeof this.props.config[keys[i]] === 'object') {
+            if (typeof this.props.config[keys[i]] === 'object' ) {
                 let res = this.form(obj[keys[i]], "", nesting+sep+keys[i]);
                 fields = fields.concat(res);
             } else {
@@ -131,6 +131,9 @@ class ServerPool extends React.Component {
         if (this.state.resp === null) {
             return <Jumbotron><h4>Response from /pool is not ready</h4></Jumbotron>;
         } else {
+            if (this.state.resp.pool === null) {
+                return <Jumbotron><h4>Pool is empty</h4></Jumbotron>;
+            }
             let cards = [];
             for (let i = 0; i < this.state.resp.pool.length; i++) {
                 configCounter += 1;

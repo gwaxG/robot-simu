@@ -131,6 +131,9 @@ class ServerConfig extends React.Component {
         if (this.state.resp === null) {
             return <Jumbotron><h4>Response from /configs is not ready</h4></Jumbotron>;
         } else {
+            if (this.state.resp.configs === null) {
+                return <Jumbotron><h4>No configuration files</h4></Jumbotron>;
+            }
             let cards = [];
             for (let i = 0; i < this.state.resp.configs.length; i++) {
                 configCounter += 1;

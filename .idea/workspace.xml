@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b9408a0-9e30-4b74-9d75-7803556d13f6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BootstrapNavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BootstrapNavbar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ServerConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ServerConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ServerPool.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ServerPool.js" afterDir="false" />
@@ -73,7 +73,9 @@
       <updated>1615890986919</updated>
       <workItem from="1615890994786" duration="1502000" />
       <workItem from="1615892501578" duration="20319000" />
-      <workItem from="1615972070841" duration="27928000" />
+      <workItem from="1615972070841" duration="28879000" />
+      <workItem from="1616063680421" duration="8741000" />
+      <workItem from="1616077050967" duration="4369000" />
     </task>
     <servers />
   </component>
