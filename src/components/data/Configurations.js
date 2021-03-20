@@ -6,6 +6,8 @@ import axios from 'axios';
 
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import WaitComponent from "./WaitComp";
 import _ from 'lodash';
 
@@ -20,7 +22,7 @@ import Toast from 'react-bootstrap/Toast';
 class Configurations extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {resp: null, popoverOpen: false    }
+        this.state = {resp: null, config: null}
         this.request();
     }
 
@@ -43,8 +45,33 @@ class Configurations extends React.Component {
     }
 
     onClick(config) {
-        // add popover
+        this.setState({config: config});
+    }
 
+    flattenObject(obj){
+        const flattened = {}
+        Object.keys(obj).forEach((key) => {
+            if (typeof obj[key] === 'object' && obj[key] !== null) {
+                Object.assign(flattened, this.flattenObject(obj[key]))
+            } else {
+                flattened[key] = obj[key]
+            }
+        })
+        return flattened
+    }
+
+    unpack(config) {
+        if (this.state.config === null) {
+            return <Jumbotron/>
+        }
+        let data = [];
+        let flatten = this.flattenObject(config);
+        for (const [key, value] of Object.entries(flatten)) {
+            data.push(
+                <Row key={key}>{key}: {value.toString()}</Row>
+            );
+        }
+        return <Jumbotron>{data}</Jumbotron>;
     }
 
     form() {
@@ -72,16 +99,23 @@ class Configurations extends React.Component {
                 row = [];
             }
         }
-        rows.push(<Row key={"row "+name}>{row}</Row>);
-        return rows;
+        rows.push(<Row key={"row last"}>{row}</Row>);
+        return <Row>
+            <Col>
+                {rows}
+            </Col>
+            <Col>
+                {this.unpack(this.state.config)}
+            </Col>
+        </Row>;
     }
 
     render (){
         let toRender = null;
         if (this.state.resp === null) {
-            toRender = <WaitComponent/>
+            toRender = <WaitComponent/>;
         } else {
-            return this.form();
+            return  this.form();
         }
         return toRender;
     }
