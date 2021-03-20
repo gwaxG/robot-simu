@@ -47,8 +47,8 @@ class ConfigForm extends React.Component {
             url: this.props.server+'/task/create',
             data: data,
         })
-            .then((resp)=>{console.log("SERVER ANSWER", resp)})
-            .catch(error => console.log("SERVER ERROR", error));
+        .then((resp)=>{console.log("SERVER ANSWER", resp)})
+        .catch(error => console.log("SERVER ERROR", error));
     }
 
     form(obj, file, nesting="") {
@@ -57,7 +57,7 @@ class ConfigForm extends React.Component {
         var wdt = "";
         var keys = Object.keys(obj);
         for (let i = 0; i<keys.length; i++) {
-            if (typeof this.props.config[keys[i]] === 'object' ) {
+            if (typeof this.props.config[keys[i]] === 'object') {
                 let res = this.form(obj[keys[i]], "", nesting+sep+keys[i]);
                 fields = fields.concat(res);
             } else {
@@ -66,6 +66,7 @@ class ConfigForm extends React.Component {
                 } else {
                     wdt = "200px";
                 }
+
                 fields.push(
                     <Row key={"row"+configCounter.toString()+i.toString()+nesting}>
                         <label key={"lbl"+configCounter.toString()+i.toString()+nesting}>
@@ -91,11 +92,11 @@ class ConfigForm extends React.Component {
 
     render() {
         let fields = this.form(this.props.config, this.props.file, "");
-        // fields.push(<Button key={"unique config button"} variant="secondary" onClick={this.handleSubmit}>Create</Button>);
+        fields.push(<Button key={"unique config button"} variant="secondary" onClick={this.handleSubmit}>Create</Button>);
         return (
             <div>
                 <h2>
-                    Task of configuration: {this.props.file.split('/').slice(-1)[0].replace("_launch.py", "")}
+                    Configuration: {this.props.file.split('/').slice(-1)[0].replace("_launch.py", "")}
                     <br/>
                 </h2>
                 {this.props.file}
@@ -105,7 +106,7 @@ class ConfigForm extends React.Component {
     }
 }
 
-class ServerPool extends React.Component {
+class ServerConfig extends React.Component {
     constructor(props) {
         super(props);
         this.state = {resp: null}
@@ -116,39 +117,39 @@ class ServerPool extends React.Component {
         var self = this;
         axios({
             method: 'get',
-            url: this.props.server+'/pool',
+            url: this.props.server+'/configs',
         }).then(
             response => {
                 self.setState({resp: response.data});
             }
         ).catch(error=>{
-            console.log("Can not fetch data from /pool");
+            console.log("Can not fetch data from /configs");
             console.error(error);
         });
     }
 
     formResponse() {
         if (this.state.resp === null) {
-            return <Jumbotron><h4>Response from /pool is not ready</h4></Jumbotron>;
+            return <Jumbotron><h4>Response from /configs is not ready</h4></Jumbotron>;
         } else {
-            if (this.state.resp.pool === null) {
-                return <Jumbotron><h4>Pool is empty</h4></Jumbotron>;
+            if (this.state.resp.configs === null) {
+                return <Jumbotron><h4>No configuration files</h4></Jumbotron>;
             }
             let cards = [];
-            for (let i = 0; i < this.state.resp.pool.length; i++) {
+            for (let i = 0; i < this.state.resp.configs.length; i++) {
                 configCounter += 1;
                 cards.push(
                     <Jumbotron key={"jumb"+i}>
                         <Container key={"cont"+i}>
                             <ConfigForm
                                 key={"form"+i}
-                                config={this.state.resp.pool[i]}
+                                config={this.state.resp.configs[i]}
                                 file={this.state.resp.launch_files[i]}
                                 server={this.props.server}
                             />
                         </Container>
                     </Jumbotron>
-                );
+                    );
             }
             return cards;
         }
@@ -159,5 +160,5 @@ class ServerPool extends React.Component {
     }
 }
 
-export default ServerPool;
+export default ServerConfig;
 

@@ -5,7 +5,9 @@ import React from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 //import Jumbotron from 'react-bootstrap/Jumbotron';
 import Row from 'react-bootstrap/Row';
+
 import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
 //import Toast from 'react-bootstrap/Toast';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -21,7 +23,29 @@ class Server extends React.Component {
             field: <Container><h1>Empty</h1></Container>,
         };
         this.fields = {
-            empty: <Container><h1>Empty</h1></Container>,
+            empty: <Container>
+                    <div><h3>Select action on the left</h3></div>
+                    <Row>
+                        <Card style={{margin: "15px"}}>
+                            <Card.Header>
+                                Configurations
+                            </Card.Header>
+                            <Card.Body style={{fontSize: 15}}>To check available experiment configurations</Card.Body>
+                        </Card>
+                        <Card style={{margin: "15px"}}>
+                            <Card.Header>
+                                Queue
+                            </Card.Header>
+                            <Card.Body style={{fontSize: 15}}>To observe waiting task queue</Card.Body>
+                        </Card>
+                        <Card style={{margin: "15px"}}>
+                            <Card.Header>
+                                Pool
+                            </Card.Header>
+                            <Card.Body style={{fontSize: 15}}>To observe current active tasks</Card.Body>
+                        </Card>
+                    </Row>
+            </Container>,
             config: <ServerConfig server={this.props.server}/>,
             queue: <ServerQueue server={this.props.server}/>,
             pool: <ServerPool server={this.props.server}/>,

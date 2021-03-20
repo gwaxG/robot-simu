@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b9408a0-9e30-4b74-9d75-7803556d13f6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/data/Data.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ServerConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ServerConfig.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ServerPool.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ServerPool.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ServerQueue.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ServerQueue.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BootstrapNavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/BootstrapNavbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Data.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/server/Server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ServerConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/server/ServerConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ServerPool.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/server/ServerPool.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ServerQueue.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/server/ServerQueue.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +44,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components/server" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -56,10 +59,16 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/server" />
+      <recent name="$PROJECT_DIR$/src/components/data" />
+      <recent name="$PROJECT_DIR$/src/components/common" />
       <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/data" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/components/server" />
       <recent name="$PROJECT_DIR$/src/components" />
     </key>
   </component>
@@ -75,7 +84,8 @@
       <workItem from="1615892501578" duration="20319000" />
       <workItem from="1615972070841" duration="28879000" />
       <workItem from="1616063680421" duration="8741000" />
-      <workItem from="1616077050967" duration="4369000" />
+      <workItem from="1616077050967" duration="4967000" />
+      <workItem from="1616137532881" duration="24114000" />
     </task>
     <servers />
   </component>

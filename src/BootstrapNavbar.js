@@ -4,12 +4,11 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    useParams,
 } from "react-router-dom";
 
-import { Navbar,Nav,NavDropdown,Form,FormControl,Button } from 'react-bootstrap'
-import Server from './Server';
-import Data from './Data';
+import { Navbar,Nav } from 'react-bootstrap'
+import Server from './components/server/Server';
+import Data from './components/data/Data';
 
 const server = "http://localhost:10000"
 
@@ -37,8 +36,8 @@ class BootstrapNavbar extends React.Component{
                                 <Route exact path="/">
                                     <Server server={server}/>
                                 </Route>
-                                <Route path="/data" server={server}>
-                                    <Data />
+                                <Route path="/data" >
+                                    <Data server={server}/>
                                 </Route>
 
                            </Switch>

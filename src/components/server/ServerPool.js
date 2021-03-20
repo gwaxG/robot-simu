@@ -6,9 +6,7 @@ import axios from 'axios';
 
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import Spinner from 'react-bootstrap/Spinner';
 import _ from 'lodash';
 /*
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -26,9 +24,7 @@ class ConfigForm extends React.Component {
         this.json = _.cloneDeep(props.config);
         this.jsonSave = _.cloneDeep(props.config);
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmitDelete = this.handleSubmitDelete.bind(this);
-        this.handleSubmitUpdate = this.handleSubmitUpdate.bind(this);
-        this.sent = false;
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event, nesting) {
@@ -37,37 +33,20 @@ class ConfigForm extends React.Component {
         this.setState({needUpdate: update});
     }
 
-    handleSubmitUpdate(event) {
+    handleSubmit(event) {
         console.log("Sending", this.json);
         let data = {
             "config": this.json,
-            "task_id": this.props.task_id,
+            "launch_file": this.props.file,
+            "msg": ""
         }
         console.log(data)
         axios({
             method: 'POST',
-            url: this.props.server+'/task/update',
+            url: this.props.server+'/task/create',
             data: data,
         })
             .then((resp)=>{console.log("SERVER ANSWER", resp)})
-            .catch(error => console.log("SERVER ERROR", error));
-    }
-
-    handleSubmitDelete(event) {
-        let data = {
-            "task_id": this.props.task_id,
-        }
-        this.props.parent_deleting()
-        var self = this;
-        axios({
-            method: 'POST',
-            url: this.props.server+'/task/delete',
-            data: data,
-        })
-            .then((resp)=>{
-                var result = resp.data;
-                this.props.parent_deleted()
-            })
             .catch(error => console.log("SERVER ERROR", error));
     }
 
@@ -77,7 +56,7 @@ class ConfigForm extends React.Component {
         var wdt = "";
         var keys = Object.keys(obj);
         for (let i = 0; i<keys.length; i++) {
-            if (typeof this.props.config[keys[i]] === 'object') {
+            if (typeof this.props.config[keys[i]] === 'object' ) {
                 let res = this.form(obj[keys[i]], "", nesting+sep+keys[i]);
                 fields = fields.concat(res);
             } else {
@@ -106,17 +85,16 @@ class ConfigForm extends React.Component {
             }
         };
         return fields;
+        // return <div key={"div"+configCounter.toString()+nesting}>{fields}</div>;
     }
 
     render() {
         let fields = this.form(this.props.config, this.props.file, "");
-        fields.push(<div key={"very unique button1"}><Button key={"unique config button1"} variant="secondary" onClick={this.handleSubmitUpdate}>Update</Button></div>);
-        fields.push(<br key={"some unique brrrr"}/>);
-        fields.push(<div key={"very unique button2"}><Button key={"unique config button2"} variant="secondary" onClick={this.handleSubmitDelete}>Delete</Button></div>);
+        // fields.push(<Button key={"unique config button"} variant="secondary" onClick={this.handleSubmit}>Create</Button>);
         return (
             <div>
                 <h2>
-                    Waiting task {this.props.task_id}: {this.props.file.split('/').slice(-1)[0].replace("_launch.py", "")}
+                    Task of configuration: {this.props.file.split('/').slice(-1)[0].replace("_launch.py", "")}
                     <br/>
                 </h2>
                 {this.props.file}
@@ -126,31 +104,10 @@ class ConfigForm extends React.Component {
     }
 }
 
-class ServerQueue extends React.Component {
+class ServerPool extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            resp: null,
-            isDeleting: false,
-            cards: null
-        }
-        this.deleting = this.deleting.bind(this)
-        this.deleted = this.deleted.bind(this)
-        this.request();
-    }
-
-    sleepFor( sleepDuration ){
-        var now = new Date().getTime();
-        while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
-    }
-
-
-    deleting() {
-        this.setState({isDeleting: true})
-    }
-
-    deleted() {
-        this.setState({isDeleting: false})
+        this.state = {resp: null}
         this.request();
     }
 
@@ -158,43 +115,35 @@ class ServerQueue extends React.Component {
         var self = this;
         axios({
             method: 'get',
-            url: this.props.server+'/queue',
+            url: this.props.server+'/pool',
         }).then(
             response => {
                 self.setState({resp: response.data});
             }
         ).catch(error=>{
-            console.log("Can not fetch data from /queue");
+            console.log("Can not fetch data from /pool");
             console.error(error);
         });
     }
 
     formResponse() {
-        console.log("DBG", this.state.resp === null, this.state.isDeleting);
-        if (this.state.resp === null || this.state.isDeleting) {
-            return (
-                <Jumbotron>
-                    <Row><h4 >Response from /queue is not ready</h4></Row>
-                    <Row><h4><Spinner animation="grow" /></h4></Row>
-                </Jumbotron>);
+        if (this.state.resp === null) {
+            return <Jumbotron><h4>Response from /pool is not ready</h4></Jumbotron>;
         } else {
-            if (this.state.resp.queue === null) {
-                return <Jumbotron><h4>Queue is empty</h4></Jumbotron>;
+            if (this.state.resp.pool === null) {
+                return <Jumbotron><h4>Pool is empty</h4></Jumbotron>;
             }
             let cards = [];
-            for (let i = 0; i < this.state.resp.queue.length; i++) {
+            for (let i = 0; i < this.state.resp.pool.length; i++) {
                 configCounter += 1;
                 cards.push(
                     <Jumbotron key={"jumb"+i}>
                         <Container key={"cont"+i}>
                             <ConfigForm
                                 key={"form"+i}
-                                config={this.state.resp.queue[i]}
+                                config={this.state.resp.pool[i]}
                                 file={this.state.resp.launch_files[i]}
                                 server={this.props.server}
-                                task_id = {i}
-                                parent_deleting = {this.deleting}
-                                parent_deleted = {this.deleted}
                             />
                         </Container>
                     </Jumbotron>
@@ -204,16 +153,10 @@ class ServerQueue extends React.Component {
         }
     }
 
-    static  getDerivedStateFromProps(props, state){
-        // this.request()
-        return null;
-    }
-
     render (){
-        this.state.cards = this.formResponse();
         return this.formResponse()
     }
 }
 
-export default ServerQueue;
+export default ServerPool;
 
