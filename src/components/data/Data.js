@@ -57,20 +57,15 @@ class Data extends React.Component {
     render() {
         return <Row>
             <Col xs="2">
-                <Container>
                     <ButtonGroup vertical>
                         <Button size="lg" variant="secondary" onClick={this.changeMainFieldHist}>Config history</Button>
                         <Button size="lg" variant="secondary" onClick={this.changeMainFieldVisual}>Visualization</Button>
                     </ButtonGroup>
-                </Container>
             </Col>
-            <Col xs="7">
-                <Container>
+            <Col xs="9">
                     {this.state.field}
-                </Container>
             </Col>
-            <Col xs="2">
-            </Col>
+            <Col/>
         </Row>;
     }
 }
