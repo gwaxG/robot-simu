@@ -10,7 +10,7 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import WaitComponent from "./WaitComp";
 import _ from "lodash";
-
+import * as cloneDeep from "lodash/cloneDeep";
 /*
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Form from 'react-bootstrap/Form';
@@ -66,7 +66,7 @@ class Databases extends React.Component {
                 </Button>;
             row.push(button);
             if (row.length % 5 === 0){
-                rows.push(<Row key={"row "+name}>{_.deeplyCopy(row)}</Row>);
+                rows.push(<Row key={"row "+name}>{cloneDeep(row)}</Row>);
                 row = [];
             }
         }

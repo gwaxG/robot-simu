@@ -7,6 +7,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Log from './Log';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import WaitComponent from "./WaitComp";
@@ -143,9 +144,16 @@ class Figures extends React.Component {
     drawFigures(){
         let data = this.state.respFigures["data"];
         let figs = [];
+        let log = false;
         for (const [key, value] of Object.entries(data)) {
-            figs.push(<Col key={key}><Figure key={key} name={key} data={value}/></Col>);
-            // <Row key={key}></Row>
+            if (key !== 'log') {
+                figs.push(<Col key={key}><Figure key={key} name={key} data={value}/></Col>);
+            } else {
+                log = true;
+            }
+        }
+        if (log) {
+            figs.push(<Log key={"log"} data={data.log}/>);
         }
         return figs;
     }
