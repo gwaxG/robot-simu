@@ -119,6 +119,11 @@ class Figures extends React.Component {
     unpackInfoCard(fields) {
         let row = [];
         let rows = [];
+        if (fields == undefined )
+            return (
+                <Row>The "fields" variable is undefined for the figures component.</Row>
+            );
+
         for (let i=0; i<fields.length; i++) {
             row.push(<Col key={fields[i]}>{fields[i]}</Col>);
             if (row.length % 2 === 0) {

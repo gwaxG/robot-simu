@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import _ from 'lodash';
 /*
@@ -24,7 +25,24 @@ class ConfigForm extends React.Component {
         this.json = _.cloneDeep(props.config);
         this.jsonSave = _.cloneDeep(props.config);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmitDelete = this.handleSubmitDelete.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmitDelete(event) {
+        let data = {
+            "task_id": this.props.task_id,
+        }
+        // this.props.parent_deleting()
+        axios({
+            method: 'POST',
+            url: this.props.server+'/task/delete_active',
+            data: data,
+        })
+            .then((resp)=>{
+                this.props.parent_deleted()
+            })
+            .catch(error => console.log("SERVER ERROR", error));
     }
 
     handleChange(event, nesting) {
@@ -34,7 +52,7 @@ class ConfigForm extends React.Component {
     }
 
     handleSubmit(event) {
-        console.log("Sending", this.json);
+        // console.log("Sending", this.json);
         let data = {
             "config": this.json,
             "launch_file": this.props.file,
@@ -91,6 +109,7 @@ class ConfigForm extends React.Component {
     render() {
         let fields = this.form(this.props.config, this.props.file, "");
         // fields.push(<Button key={"unique config button"} variant="secondary" onClick={this.handleSubmit}>Create</Button>);
+        fields.push(<div key={"very unique button2"}><Button key={"unique config button2"} variant="secondary" onClick={this.handleSubmitDelete}>Delete</Button></div>);
         return (
             <div>
                 <h2>
