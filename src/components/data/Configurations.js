@@ -95,7 +95,7 @@ class Configurations extends React.Component {
 
             row.push(button);
             if (row.length % 6 === 0){
-                rows.push(<Row key={"row "+name}>{_.deeplyCopy(row)}</Row>);
+                rows.push(<Row key={"row "+name}>{_.cloneDeep(row)}</Row>);
                 row = [];
             }
         }

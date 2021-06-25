@@ -149,16 +149,19 @@ class Figures extends React.Component {
     drawFigures(){
         let data = this.state.respFigures["data"];
         let figs = [];
-        let log = false;
+        let textual = "";
         for (const [key, value] of Object.entries(data)) {
-            if (key !== 'log') {
+            if (key !== 'log' && key !== 'accidents') {
                 figs.push(<Col key={key}><Figure key={key} name={key} data={value}/></Col>);
             } else {
-                log = true;
+                textual = key;
             }
         }
-        if (log) {
-            figs.push(<Log key={"log"} data={data.log}/>);
+        if (textual == 'log') {
+            figs.push(<Log key={textual} data={data.log}/>);
+        }
+        if (textual == 'accidents') {
+            figs.push(<Log key={textual} data={data.accidents}/>);
         }
         return figs;
     }
