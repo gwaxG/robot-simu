@@ -9,4 +9,4 @@ Initially, it is necessary to launch `robot_ws/backend/bin/backend_app` from [ro
 `./installation.sh`
 
 ### Launching
-`cd ~/robot-simu && npm start`
+`npm start`
